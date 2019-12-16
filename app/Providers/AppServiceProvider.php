@@ -4,8 +4,11 @@ namespace App\Providers;
 
 use App\Contracts\Filesystem\Credentials;
 use App\Contracts\Instagram\Authentication;
+use App\Contracts\Reddit\Scraper;
 use App\Services\Filesystem\CredentialsManager;
 use App\Services\Instagram\AuthenticationService;
+use App\Services\Reddit\ScraperService;
+use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
 use InstagramAPI\Instagram;
 
@@ -38,6 +41,11 @@ class AppServiceProvider extends ServiceProvider
             $instagram = new Instagram(true, true);
             $filesystem = new CredentialsManager($app->make('filesystem.disk'), $app->make('encrypter'));
             return new AuthenticationService($instagram, $filesystem);
+        });
+
+        // Inject Guzzle Into Reddit Service
+        $this->app->singleton(Scraper::class, function ($app){
+            return new ScraperService(new Client(['base_uri' => 'http://www.reddit.com']), $app->make(Authentication::class), $app->make('filesystem.disk'));
         });
     }
 }

@@ -8,6 +8,7 @@ use App\Exceptions\Filesystem\VerifyDeviceException;
 use App\Services\Filesystem\CredentialsManager;
 use App\Services\Instagram\AuthenticationService;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Contracts\Console\Kernel;
 use LaravelZero\Framework\Commands\Command;
 
 class SetupCommand extends Command
@@ -31,31 +32,19 @@ class SetupCommand extends Command
      *
      * @return mixed
      */
-    public function handle(AuthenticationService $service, CredentialsManager $manager)
+    public function handle(AuthenticationService $service, Kernel $kernel)
     {
         try{
             $service->login();
         }catch (InvalidCredentialStructureException $exception){
             $this->alert($exception->getMessage());
             sleep(2);
-            $username = $this->ask('What is your username?');
-            $password = $this->secret('What is your password?');
+            $kernel->call('setup:instagram');
 
-            $saved = $manager->save($username, $password);
-            if($saved){
-                $this->alert('Credentials saved. Run command again.');
-            }
         }catch (CredentialsAreMissingException $exception){
             $this->alert($exception->getMessage());
             sleep(2);
-            $username = $this->ask('What is your username?');
-            $password = $this->secret('What is your password?');
-
-            $saved = $manager->save($username, $password);
-            if($saved){
-                $this->alert('Credentials saved. Run command again.');
-            }
-
+            $kernel->call('setup:instagram');
         }catch (VerifyDeviceException $exception){
             $this->error($exception->getMessage());
         }

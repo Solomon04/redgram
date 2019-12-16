@@ -8,6 +8,8 @@ return [
         ],
     ],
     'path' => [
-        'credentials' => 'credentials.txt'
+        'credentials' => 'credentials.txt',
+        'reddit' => 'reddit.json',
+        'posts' => 'posts'
     ]
 ];
