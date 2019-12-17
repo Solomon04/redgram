@@ -2,7 +2,7 @@
 
 namespace App\Commands;
 
-use App\Services\Filesystem\ConfigurationManager;
+use App\Services\Filesystem\RedditConfigurationManager;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 
@@ -27,7 +27,7 @@ class RedditSetupCommand extends Command
      *
      * @return mixed
      */
-    public function handle(ConfigurationManager $manager)
+    public function handle(RedditConfigurationManager $manager)
     {
         $subreddit = $this->ask('What is the name of the subreddit?', 'ProgrammerHumor');
 

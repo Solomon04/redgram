@@ -27,9 +27,9 @@ class PostingCommand extends Command
      *
      * @return mixed
      */
-    public function handle(ScraperService $scraperService)
+    public function handle()
     {
-        $scraperService->getPosts();
+
     }
 
     /**

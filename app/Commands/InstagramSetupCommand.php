@@ -2,7 +2,7 @@
 
 namespace App\Commands;
 
-use App\Services\Filesystem\CredentialsManager;
+use App\Services\Instagram\CredentialsManger;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 
@@ -20,14 +20,14 @@ class InstagramSetupCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Setup Instagram information';
+    protected $description = 'Setup Instagram credentials';
 
     /**
      * Execute the console command.
      *
      * @return mixed
      */
-    public function handle(CredentialsManager $manager)
+    public function handle(CredentialsManger $manager)
     {
         $username = $this->ask('What is your username?');
         $password = $this->secret('What is your password?');

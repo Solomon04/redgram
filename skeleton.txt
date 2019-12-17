@@ -1,0 +1,14 @@
+:phrase
+.
+.
+.
+.
+@:username
+@:username
+@:username
+.
+.
+Credit: r/:subreddit
+.
+.
+:hashtags

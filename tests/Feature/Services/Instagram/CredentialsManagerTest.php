@@ -1,23 +1,19 @@
 <?php
 
 
-namespace Tests\Feature\Services\Filesystem;
+namespace Tests\Feature\Services\Instagram;
 
 
 use App\Contracts\Filesystem\InstagramCredentials;
-use App\Services\Filesystem\InstagramCredentialsManager;
+use App\Services\Instagram\CredentialsManger;
 use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Crypt;
 use Mockery\Mock;
 use Tests\TestCase;
 
-/**
- * @coversDefaultClass \App\Services\Filesystem\InstagramCredentialsManager
- */
 class CredentialsManagerTest extends TestCase
 {
     /**
-     * @var InstagramCredentialsManager | Mock
+     * @var CredentialsManger | Mock
      */
     private $manager;
 

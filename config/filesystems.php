@@ -10,6 +10,7 @@ return [
     'path' => [
         'credentials' => 'credentials.txt',
         'reddit' => 'reddit.json',
-        'posts' => 'posts'
+        'posts' => 'posts',
+        'caption' => 'caption.txt'
     ]
 ];

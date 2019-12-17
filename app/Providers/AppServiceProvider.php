@@ -2,11 +2,15 @@
 
 namespace App\Providers;
 
-use App\Contracts\Filesystem\Credentials;
+use App\Contracts\Filesystem\InstagramCredentials;
 use App\Contracts\Instagram\Authentication;
+use App\Contracts\Instagram\Credentials;
+use App\Contracts\Reddit\Configuration;
 use App\Contracts\Reddit\Scraper;
-use App\Services\Filesystem\CredentialsManager;
+use App\Services\Filesystem\InstagramCredentialsManager;
 use App\Services\Instagram\AuthenticationService;
+use App\Services\Instagram\CredentialsManger;
+use App\Services\Reddit\ConfigurationManager;
 use App\Services\Reddit\ScraperService;
 use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
@@ -33,14 +37,17 @@ class AppServiceProvider extends ServiceProvider
     {
         // Bind Credential Contract with Service
         $this->app->bind(Credentials::class, function ($app){
-            return new CredentialsManager($app->make('filesystem.disk'), $app->make('encrypter'));
+            return new CredentialsManger($app->make('filesystem.disk'), $app->make('encrypter'));
+        });
+
+        // Bind Caption Contract with Service
+        $this->app->bind(Configuration::class, function ($app){
+            return new ConfigurationManager($app->make('filesystem.disk'));
         });
 
         // Inject dependencies into Auth Service.
         $this->app->singleton(Authentication::class, function ($app){
-            $instagram = new Instagram(true, true);
-            $filesystem = new CredentialsManager($app->make('filesystem.disk'), $app->make('encrypter'));
-            return new AuthenticationService($instagram, $filesystem);
+            return new AuthenticationService(new Instagram(true, true), $app->make(Credentials::class));
         });
 
         // Inject Guzzle Into Reddit Service

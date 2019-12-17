@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Contracts\Filesystem;
+namespace App\Contracts\Reddit;
 
 
 use App\Exceptions\InvalidArrayStructureException;

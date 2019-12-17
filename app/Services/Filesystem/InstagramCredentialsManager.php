@@ -4,12 +4,17 @@
 namespace App\Services\Filesystem;
 
 
-use App\Contracts\Filesystem\Credentials;
+use App\Contracts\Filesystem\InstagramCredentials;
 use App\Exceptions\Filesystem\InvalidCredentialStructureException;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
-class CredentialsManager implements Credentials
+/**
+ * Class InstagramCredentialsManager
+ * @package App\Services\Filesystem
+ * @deprecated
+ */
+class InstagramCredentialsManager implements InstagramCredentials
 {
     /**
      * @var Filesystem

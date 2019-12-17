@@ -4,11 +4,16 @@
 namespace App\Services\Filesystem;
 
 
-use App\Contracts\Filesystem\Configuration;
+use App\Contracts\Filesystem\RedditConfiguration;
 use App\Exceptions\InvalidArrayStructureException;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
-class ConfigurationManager implements Configuration
+/**
+ * Class RedditConfigurationManager
+ * @package App\Services\Filesystem
+ * @deprecated
+ */
+class RedditConfigurationManager implements RedditConfiguration
 {
     /**
      * @var Filesystem

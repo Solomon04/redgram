@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Contracts\Filesystem;
+namespace App\Contracts\Instagram;
 
 
 use App\Exceptions\Filesystem\InvalidCredentialStructureException;

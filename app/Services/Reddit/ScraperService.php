@@ -5,7 +5,7 @@ namespace App\Services\Reddit;
 
 
 use App\Contracts\Reddit\Scraper;
-use App\Services\Filesystem\ConfigurationManager;
+use App\Services\Filesystem\RedditConfigurationManager;
 use GuzzleHttp\Client;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
@@ -17,7 +17,7 @@ class ScraperService implements Scraper
     private $client;
 
     /**
-     * @var ConfigurationManager
+     * @var RedditConfigurationManager
      */
     private $manager;
 
@@ -26,7 +26,7 @@ class ScraperService implements Scraper
      */
     private $filesystem;
 
-    public function __construct(Client $client, ConfigurationManager $manager, Filesystem $filesystem)
+    public function __construct(Client $client, RedditConfigurationManager $manager, Filesystem $filesystem)
     {
         $this->client = $client;
         $this->manager = $manager;
@@ -34,7 +34,7 @@ class ScraperService implements Scraper
     }
 
     /**
-     *
+     * Retreive content from Reddit
      *
      * @throws \App\Exceptions\InvalidArrayStructureException
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
