@@ -5,7 +5,6 @@ namespace App\Services\Reddit;
 
 
 use App\Contracts\Reddit\Scraper;
-use App\Services\Filesystem\RedditConfigurationManager;
 use GuzzleHttp\Client;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
@@ -17,7 +16,7 @@ class ScraperService implements Scraper
     private $client;
 
     /**
-     * @var RedditConfigurationManager
+     * @var ConfigurationManager
      */
     private $manager;
 
@@ -26,7 +25,7 @@ class ScraperService implements Scraper
      */
     private $filesystem;
 
-    public function __construct(Client $client, RedditConfigurationManager $manager, Filesystem $filesystem)
+    public function __construct(Client $client, ConfigurationManager $manager, Filesystem $filesystem)
     {
         $this->client = $client;
         $this->manager = $manager;
@@ -34,17 +33,18 @@ class ScraperService implements Scraper
     }
 
     /**
-     * Retreive content from Reddit
+     * Filter JSON content from Reddit for posting
      *
      * @throws \App\Exceptions\InvalidArrayStructureException
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @return array
      */
-    public function getPosts()
+    public function filterPosts()
     {
         $config = $this->manager->get();
         $json = $this->getJsonData($config['subreddit'], $config['sort']);
-        $posts = $json->data->children;
-        foreach ($posts as $post){
+        $posts = [];
+        foreach ($json->data->children as $post){
             if (!strpos($post->data->url, 'jpg')) {
                 continue;
             }
@@ -56,13 +56,15 @@ class ScraperService implements Scraper
             if($this->filesystem->exists($post->data->id . ".jpg")){
                 continue;
             }
-
-            $image = file_get_contents($post->data->url);
-
-            $path = config('filesystems.path.posts') . DIRECTORY_SEPARATOR . $post->data->id . ".jpg";
-            $this->filesystem->put($path, $image);
-
+            $posts[] = [
+                'id' => $post->data->id,
+                'score' => $post->data->score,
+                'image' => $post->data->url
+            ];
         }
+        $score = array_column($posts, 'score');
+        array_multisort($score, SORT_DESC, $posts);
+        return $posts;
     }
 
     /**
@@ -72,7 +74,7 @@ class ScraperService implements Scraper
      * @param string $sort
      * @return mixed
      */
-    private function getJsonData(string $subreddit, string $sort)
+    public function getJsonData(string $subreddit, string $sort)
     {
         $response = $this->client->get("r/{$subreddit}/new/.json", [
             'headers' => [

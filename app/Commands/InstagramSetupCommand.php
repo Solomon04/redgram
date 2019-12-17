@@ -25,6 +25,7 @@ class InstagramSetupCommand extends Command
     /**
      * Execute the console command.
      *
+     * @param CredentialsManger $manager
      * @return mixed
      */
     public function handle(CredentialsManger $manager)

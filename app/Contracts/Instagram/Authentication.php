@@ -6,7 +6,7 @@ namespace App\Contracts\Instagram;
 
 use App\Exceptions\Filesystem\CredentialsAreMissingException;
 use App\Exceptions\Filesystem\VerifyDeviceException;
-use App\Services\Filesystem\InstagramCredentialsManager;
+use App\Services\Instagram\CredentialsManger;
 use InstagramAPI\Instagram;
 
 interface Authentication
@@ -14,9 +14,9 @@ interface Authentication
     /**
      * Authentication constructor.
      * @param Instagram $instagram
-     * @param InstagramCredentialsManager $manager
+     * @param CredentialsManger $manager
      */
-    public function __construct(Instagram $instagram, InstagramCredentialsManager $manager);
+    public function __construct(Instagram $instagram, CredentialsManger $manager);
 
     /**
      * Login to the user's Instagram account.

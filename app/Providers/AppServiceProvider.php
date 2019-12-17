@@ -52,7 +52,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Inject Guzzle Into Reddit Service
         $this->app->singleton(Scraper::class, function ($app){
-            return new ScraperService(new Client(['base_uri' => 'http://www.reddit.com']), $app->make(Authentication::class), $app->make('filesystem.disk'));
+            return new ScraperService(new Client(['base_uri' => 'http://www.reddit.com']), $app->make(Configuration::class), $app->make('filesystem.disk'));
         });
     }
 }

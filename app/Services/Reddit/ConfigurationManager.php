@@ -62,7 +62,7 @@ class ConfigurationManager implements Configuration
     {
         $file = $this->filesystem->get(config('filesystems.path.reddit'));
         $config = json_decode($file, true);
-        if(!isset($config['subreddit']) || !isset($config['sort'])){
+        if(!isset($config['subreddit']) || !isset($config['sort'])|| !isset($config['minScore'])|| !isset($config['allowVideos'])){
             throw new InvalidArrayStructureException();
         }
 

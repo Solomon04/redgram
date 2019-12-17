@@ -4,7 +4,7 @@
 namespace Tests\Feature\Services\Instagram;
 
 
-use App\Contracts\Filesystem\InstagramCredentials;
+use App\Contracts\Instagram\Credentials;
 use App\Services\Instagram\CredentialsManger;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Mockery\Mock;
@@ -26,7 +26,7 @@ class CredentialsManagerTest extends TestCase
     {
         parent::setUp();
         $this->config->set('filesystems.disks.local.root', base_path() . DIRECTORY_SEPARATOR . 'redgram-testing');
-        $this->manager = $this->mock(InstagramCredentials::class);
+        $this->manager = $this->mock(Credentials::class);
         $this->filesystem = $this->app->make('filesystem.disk');
     }
 
@@ -43,8 +43,8 @@ class CredentialsManagerTest extends TestCase
     {
         $this->manager->shouldReceive('exists')
             ->once()
-            ->andReturn(true);
-        $this->assertTrue($this->manager->exists());
+            ->andReturn(false);
+        $this->assertFalse($this->manager->exists());
     }
 
     /**

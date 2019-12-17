@@ -2,7 +2,7 @@
 
 namespace App\Commands;
 
-use App\Services\Filesystem\RedditConfigurationManager;
+use App\Services\Reddit\ConfigurationManager;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 
@@ -25,19 +25,24 @@ class RedditSetupCommand extends Command
     /**
      * Execute the console command.
      *
+     * @param ConfigurationManager $manager
      * @return mixed
      */
-    public function handle(RedditConfigurationManager $manager)
+    public function handle(ConfigurationManager $manager)
     {
         $subreddit = $this->ask('What is the name of the subreddit?', 'ProgrammerHumor');
 
         $sort = $this->choice('Do you want the newest posts or hottest posts?', ['new', 'hot']);
 
         $minScore = $this->ask('What is the minimum score for a Reddit post?', 25);
+        if(!is_numeric($minScore)){
+            $minScore = 25;
+        }
 
+        // TODO add support for videos
         //$this->choice('Do you want to allow videos?')
 
-        $manager->save($subreddit, $sort, $minScore, false);
+        return $manager->save($subreddit, $sort, $minScore, false);
     }
 
     /**

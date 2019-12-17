@@ -4,7 +4,7 @@
 namespace Tests\Feature\Services\Instagram;
 
 
-use App\Contracts\Filesystem\InstagramCredentials;
+use App\Contracts\Instagram\Caption;
 use App\Services\Instagram\CaptionManager;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Mockery\Mock;
@@ -29,7 +29,7 @@ class CaptionManagerTest extends TestCase
     {
         parent::setUp();
         $this->config->set('filesystems.disks.local.root', base_path() . DIRECTORY_SEPARATOR . 'redgram-testing');
-        $this->manager = $this->mock(InstagramCredentials::class);
+        $this->manager = $this->mock(Caption::class);
         $this->filesystem = $this->app->make('filesystem.disk');
     }
 
@@ -60,6 +60,8 @@ class CaptionManagerTest extends TestCase
      */
     public function test_get_caption()
     {
-
+        $this->filesystem->put(config('filesystems.path.caption'), 'test');
+        $this->manager->shouldReceive('get')->andReturn('test');
+        $this->assertEquals('test', $this->manager->get());
     }
 }
