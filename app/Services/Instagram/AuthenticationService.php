@@ -7,7 +7,6 @@ namespace App\Services\Instagram;
 use App\Contracts\Instagram\Authentication;
 use App\Exceptions\Filesystem\CredentialsAreMissingException;
 use App\Exceptions\Filesystem\VerifyDeviceException;
-use App\Services\Filesystem\InstagramCredentialsManager;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use InstagramAPI\Exception\ChallengeRequiredException;
@@ -21,11 +20,11 @@ class AuthenticationService implements Authentication
     private $instagram;
 
     /**
-     * @var InstagramCredentialsManager
+     * @var CredentialsManger
      */
     private $manager;
 
-    public function __construct(Instagram $instagram, InstagramCredentialsManager $manager)
+    public function __construct(Instagram $instagram, CredentialsManger $manager)
     {
         $this->instagram = $instagram;
         $this->manager = $manager;

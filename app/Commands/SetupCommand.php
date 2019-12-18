@@ -5,7 +5,6 @@ namespace App\Commands;
 use App\Exceptions\Filesystem\CredentialsAreMissingException;
 use App\Exceptions\Filesystem\InvalidCredentialStructureException;
 use App\Exceptions\Filesystem\VerifyDeviceException;
-use App\Services\Filesystem\InstagramCredentialsManager;
 use App\Services\Instagram\AuthenticationService;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Console\Kernel;

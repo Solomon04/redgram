@@ -24,13 +24,13 @@ class PostingService
      * Post content to Instagram feed. Can be either
      * a photo or video.
      *
-     * @param $file
-     * @param $caption
+     * @param string $file
+     * @param string $caption
      * @param bool $isVideo
      * @return \InstagramAPI\Response\ConfigureResponse
      * @throws \Exception
      */
-    public function submit($file, $caption, $isVideo = false)
+    public function submit(string $file, string $caption, $isVideo = false)
     {
         if($isVideo){
             $video = new InstagramVideo($file);
