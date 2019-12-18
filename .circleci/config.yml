@@ -21,7 +21,7 @@ jobs:
       - checkout
 
       - run: sudo apt update && sudo apt install zlib1g-dev libsqlite3-dev libpng-dev redis-server
-      - run: sudo docker-php-ext-install zip mysqli pdo_mysql pdo_sqlite
+      - run: sudo docker-php-ext-install zip mysqli pdo_mysql pdo_sqlite bcmath
       - run: sudo docker-php-ext-install -j$(nproc) gd
       - run: sudo service redis-server start
 

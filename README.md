@@ -1,6 +1,9 @@
 <p align="center">
     <img title="Redgram Logo" height="200" src="http://www.solomon04.xyz/my-portfolio/img/portfolio/redgram.jpg" />
 </p>
+<p align="center">
+  <img src="https://circleci.com/gh/Solomon04/redgram.svg?style=svg" alt="CircleCI">
+</p>
 
 # PHP Redgram
 PHP Redgram is a command line tool written in PHP, specifically [Laravel Zero](https://laravel-zero.com/), that allows you to post content from Reddit to Instagram programmatically. I use this for
