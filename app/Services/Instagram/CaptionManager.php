@@ -48,7 +48,7 @@ class CaptionManager implements Caption
      */
     public function save(string $username, string $phrase, string $hashtags)
     {
-        $body = $this->filesystem->get(base_path('skeleton.txt'));
+        $body = fopen(base_path('skeleton.txt'), 'r');
         $body = str_replace(':username', $username, $body);
         $body = str_replace(':phrase', $phrase, $body);
         $body = str_replace(':hashtags', $hashtags, $body);

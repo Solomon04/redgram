@@ -4,15 +4,17 @@
 namespace App\Services\Instagram;
 
 
-use App\Contracts\Instagram\Authentication;
+use App\Contracts\Instagram\Post;
 use App\Exceptions\Filesystem\CredentialsAreMissingException;
 use App\Exceptions\Filesystem\VerifyDeviceException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use InstagramAPI\Exception\ChallengeRequiredException;
 use InstagramAPI\Instagram;
+use InstagramAPI\Media\Photo\InstagramPhoto;
+use InstagramAPI\Media\Video\InstagramVideo;
 
-class AuthenticationService implements Authentication
+class PostService implements Post
 {
     /**
      * @var Instagram
@@ -33,7 +35,7 @@ class AuthenticationService implements Authentication
     /**
      * Login to the user's Instagram account.
      *
-     * @return \InstagramAPI\Response\LoginResponse|null
+     * @return $this
      * @throws CredentialsAreMissingException
      * @throws VerifyDeviceException
      * @throws \App\Exceptions\Filesystem\InvalidCredentialStructureException
@@ -54,11 +56,31 @@ class AuthenticationService implements Authentication
         $password = $credentials['password'];
 
         try{
-            $login = $this->instagram->login($username, $password);
+            $this->instagram->login($username, $password);
         }catch (ChallengeRequiredException $exception){
             throw new VerifyDeviceException();
         }
 
-        return $login;
+        return $this;
+    }
+
+    /**
+     * Post content to Instagram feed. Can be either
+     * a photo or video.
+     *
+     * @param string $file
+     * @param string $caption
+     * @param bool $isVideo
+     * @return \InstagramAPI\Response\ConfigureResponse
+     * @throws \Exception
+     */
+    public function post(string $file, string $caption, bool $isVideo = false)
+    {
+        if($isVideo){
+            $video = new InstagramVideo($file);
+            return $this->instagram->timeline->uploadVideo($video->getFile(), ['caption' => $caption]);
+        }
+        $photo = new InstagramPhoto($file);
+        return $this->instagram->timeline->uploadPhoto($photo->getFile(), ['caption' => $caption]);
     }
 }

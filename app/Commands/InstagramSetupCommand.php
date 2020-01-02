@@ -2,6 +2,7 @@
 
 namespace App\Commands;
 
+use App\Services\Instagram\CaptionManager;
 use App\Services\Instagram\CredentialsManger;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
@@ -25,15 +26,20 @@ class InstagramSetupCommand extends Command
     /**
      * Execute the console command.
      *
-     * @param CredentialsManger $manager
-     * @return mixed
+     * @param CredentialsManger $credentialsManger
+     * @param CaptionManager $captionManager
+     * @return bool
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function handle(CredentialsManger $manager)
+    public function handle(CredentialsManger $credentialsManger, CaptionManager $captionManager)
     {
         $username = $this->ask('What is your username?');
         $password = $this->secret('What is your password?');
 
-        return $manager->save($username, $password);
+        $phrase = $this->ask('What do you want your default caption to be?');
+        $hashtags = $this->ask('What do you want your hashtags to be? (No line breaks)');
+
+        return $credentialsManger->save($username, $password) && $captionManager->save($username, $phrase, $hashtags);
     }
 
     /**

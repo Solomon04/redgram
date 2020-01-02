@@ -53,7 +53,7 @@ class ScraperService implements Scraper
                 continue;
             }
 
-            if($this->filesystem->exists($post->data->id . ".jpg")){
+            if($this->filesystem->exists(config('filesystems.path.posted') . DIRECTORY_SEPARATOR . $post->data->id . '.jpg')){
                 continue;
             }
             $posts[] = [
